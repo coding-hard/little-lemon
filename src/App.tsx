@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from './components/Header';
-import Main from './components/Main';
-import Footer from './components/Footer';
-import './styles/App.css';
+import Header from './components/Header/Header';
+import Main from './components/Main/Main';
+import Footer from './components/Footer/Footer';
+import './App.css';
 
-export default function App() {
+const App: React.FC = () => {
   return (
     <div className="app-container">
       <Header />
@@ -12,4 +12,6 @@ export default function App() {
       <Footer />
     </div>
   );
-}
+};
+
+export default App;
