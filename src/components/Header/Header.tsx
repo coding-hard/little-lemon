@@ -1,14 +1,12 @@
 import React from 'react';
-import Nav from './Nav';
-import { HeaderContainer, HeaderContent, Logo } from './Header.styles';
+import { HeaderContainer, Logo } from './Header.styles';
+import Nav from '../Nav/Nav';
 
 const Header: React.FC = () => {
   return (
     <HeaderContainer>
-      <HeaderContent>
-        <Logo src="path-to-logo.jpg" alt="Little Lemon Logo" />
-        <Nav />
-      </HeaderContent>
+      <Logo src="/icons_assets/Logo.svg" alt="Little Lemon Logo" />
+      <Nav />
     </HeaderContainer>
   );
 };
