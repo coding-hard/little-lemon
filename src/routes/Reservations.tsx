@@ -14,6 +14,7 @@ const Reservations: React.FC = () => {
     date: '',
     time: '',
     guests: '',
+    occasion: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +40,7 @@ const Reservations: React.FC = () => {
         date: '',
         time: '',
         guests: '',
+        occasion: '',
       });
     });
   };
@@ -82,6 +84,14 @@ const Reservations: React.FC = () => {
           value={reservationDetails.guests}
           onChange={handleChange}
           required
+        />
+        <ReservationLabel htmlFor="occasion">Occasion:</ReservationLabel>
+        <ReservationInput
+          type="text"
+          id="occasion"
+          name="occasion"
+          value={reservationDetails.occasion}
+          onChange={handleChange}
         />
         <ReservationButton type="submit">Make Reservation</ReservationButton>
       </ReservationForm>
