@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import Specials from '../components/Specials/Specials';
-import OrderOnline from '../components/OrderOnline/OrderOnline';
+import Specials from '../../components/Specials/Specials';
+import OrderOnline from '../../components/OrderOnline/OrderOnline';
 import { MenuContainer, MenuTitle } from './Menu.styles';
 
 const Menu: React.FC = () => {
