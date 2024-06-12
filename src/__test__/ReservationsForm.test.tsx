@@ -7,7 +7,15 @@ import ReservationsForm from '../components/Reservations/ReservationsForm';
 describe('Booking Form', () => {
   it('should render reservation button', () => {
     const mockDispatch = jest.fn();
-    render(<ReservationsForm availableTimes={[]} dispatch={mockDispatch} />);
+    const mockOnDateChange = jest.fn();
+
+    render(
+      <ReservationsForm
+        availableTimes={[]}
+        dispatch={mockDispatch}
+        onDateChange={mockOnDateChange}
+      />,
+    );
 
     const button = screen.getByText('Make Reservation');
     expect(button).toBeInTheDocument();
@@ -19,17 +27,18 @@ describe('Booking Form', () => {
 describe('ReservationsForm Component', () => {
   it('should update available times and book a reservation', async () => {
     window.alert = jest.fn();
-
     const mockDispatch = jest.fn();
+    const mockOnDateChange = jest.fn();
 
     render(
       <ReservationsForm
         availableTimes={['17:00', '18:00', '19:00']}
         dispatch={mockDispatch}
+        onDateChange={mockOnDateChange}
       />,
     );
 
-    userEvent.type(screen.getByLabelText('Name:'), 'John Doe');
+    userEvent.type(screen.getByLabelText('Name:'), 'Dmytro');
     userEvent.type(screen.getByLabelText('Date:'), '2024-06-12');
     userEvent.selectOptions(screen.getByLabelText('Time:'), '18:00');
     userEvent.type(screen.getByLabelText('Number of Guests:'), '4');
@@ -45,13 +54,6 @@ describe('ReservationsForm Component', () => {
       expect(window.alert).toHaveBeenCalledWith(
         'Your reservation has been made!',
       );
-    });
-
-    await waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith({
-        type: 'UPDATE_TIMES',
-        payload: { date: '2024-06-12' },
-      });
     });
 
     await waitFor(() => {

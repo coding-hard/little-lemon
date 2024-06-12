@@ -1,37 +1,71 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import ReservationsForm from '../../components/Reservations/ReservationsForm';
 import ReservationsSlot from '../../components/Reservations/ReservationsSlot';
 import { ReservationContainer, ReservationTitle } from './Reservations.styles';
+import { fetchAPI } from '../../utils/Api';
 
-export const initializeTimes = () => {
-  return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+type InitializeTimesType = {
+  type: 'INITIALIZE_TIMES';
+  payload: {
+    times: string[];
+  };
+};
+
+type UpdateTimesType = {
+  type: 'UPDATE_TIMES';
+  payload: {
+    date: string;
+    times?: string[];
+  };
+};
+
+type BookTimeType = {
+  type: 'BOOK_TIME';
+  payload: {
+    date: string;
+    time: string;
+  };
+};
+
+export type ActionType = InitializeTimesType | UpdateTimesType | BookTimeType;
+
+export const initializeTimes = async () => {
+  const today = new Date().toISOString().split('T')[0];
+  const availableTimes = await fetchAPI(today);
+  return availableTimes;
 };
 
 export const updateTimes = (
   state: { times: string[]; booked: { [date: string]: string[] } },
-  action: { type: string; payload: { date: string; time?: string } },
+  action: ActionType,
 ) => {
   switch (action.type) {
+    case 'INITIALIZE_TIMES':
+      return {
+        ...state,
+        times: action.payload.times || [],
+      };
     case 'UPDATE_TIMES':
       const bookedTimesForDate = state.booked[action.payload.date] || [];
       return {
         ...state,
-        times: initializeTimes().filter(
+        times: (action.payload.times || []).filter(
           (time) => !bookedTimesForDate.includes(time),
         ),
       };
     case 'BOOK_TIME':
       const { date, time } = action.payload;
+      if (!date || !time) {
+        return state;
+      }
       const updatedBooked = {
         ...state.booked,
-        [date]: [...(state.booked[date] || []), time!],
+        [date]: [...(state.booked[date] || []), time],
       };
       return {
         ...state,
         booked: updatedBooked,
-        times: initializeTimes().filter(
-          (t) => !updatedBooked[date].includes(t),
-        ),
+        times: state.times.filter((t) => t !== time),
       };
     default:
       return state;
@@ -40,16 +74,34 @@ export const updateTimes = (
 
 const Reservations: React.FC = () => {
   const [state, dispatch] = useReducer(updateTimes, {
-    times: initializeTimes(),
+    times: [],
     booked: {},
   });
+
+  useEffect(() => {
+    const fetchInitialTimes = async () => {
+      const times = await initializeTimes();
+      dispatch({ type: 'INITIALIZE_TIMES', payload: { times } });
+    };
+
+    fetchInitialTimes();
+  }, []);
+
+  const handleDateChange = async (date: string) => {
+    const times = await fetchAPI(date);
+    dispatch({ type: 'UPDATE_TIMES', payload: { date, times } });
+  };
 
   console.log('Rendering Reservations with times:', state.times);
 
   return (
     <ReservationContainer>
       <ReservationTitle>Reserve a Table</ReservationTitle>
-      <ReservationsForm availableTimes={state.times} dispatch={dispatch} />
+      <ReservationsForm
+        availableTimes={state.times}
+        dispatch={dispatch}
+        onDateChange={handleDateChange}
+      />
       <ReservationsSlot availableTimes={state.times} />
     </ReservationContainer>
   );

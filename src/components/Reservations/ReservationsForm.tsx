@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, useEffect } from 'react';
 import {
   ReservationForm,
   ReservationLabel,
@@ -6,26 +6,36 @@ import {
   ReservationButton,
   ReservationSelect,
 } from './ReservationsForm.styles';
+import { ActionType } from '../../pages/Reservations/Reservations';
+import { submitAPI } from '../../utils/Api';
 
 interface ReservationsFormProps {
   availableTimes: string[];
-  dispatch: React.Dispatch<{
-    type: string;
-    payload: { date: string; time?: string };
-  }>;
+  dispatch: Dispatch<ActionType>;
+  onDateChange: (date: string) => void;
 }
 
 const ReservationsForm: React.FC<ReservationsFormProps> = ({
   availableTimes,
   dispatch,
+  onDateChange,
 }) => {
   const [reservationDetails, setReservationDetails] = useState({
     name: '',
     date: '',
-    time: availableTimes[0] || '', // Pre-select the first available time if available
+    time: '',
     guests: '',
     occasion: '',
   });
+
+  useEffect(() => {
+    if (availableTimes.length > 0) {
+      setReservationDetails((details) => ({
+        ...details,
+        time: availableTimes[0],
+      }));
+    }
+  }, [availableTimes]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -36,8 +46,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
-    console.log('Dispatching UPDATE_TIMES:', { date: e.target.value });
-    dispatch({ type: 'UPDATE_TIMES', payload: { date: e.target.value } });
+    onDateChange(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,26 +54,30 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
 
     const { date, time } = reservationDetails;
 
-    // Mocking a POST request
-    const mockPostRequest = new Promise<string>((resolve) => {
-      setTimeout(() => {
-        console.log('Reservation Details:', reservationDetails);
-        resolve('Your reservation has been made!');
-      }, 1000);
-    });
-
-    const message = await mockPostRequest;
-    console.log('Alert message:', message);
-    alert(message);
-    console.log('Dispatching BOOK_TIME:', { date, time });
-    dispatch({ type: 'BOOK_TIME', payload: { date, time } });
-    setReservationDetails({
-      name: '',
+    const formData = {
+      name: reservationDetails.name,
       date: reservationDetails.date,
-      time: '',
-      guests: '',
-      occasion: '',
-    });
+      time: reservationDetails.time,
+      guests: reservationDetails.guests,
+      occasion: reservationDetails.occasion,
+    };
+
+    const success = await submitAPI(formData);
+    const message = success
+      ? 'Your reservation has been made!'
+      : 'Failed to make reservation';
+    alert(message);
+
+    if (success) {
+      dispatch({ type: 'BOOK_TIME', payload: { date, time } });
+      setReservationDetails({
+        name: '',
+        date: reservationDetails.date,
+        time: '',
+        guests: '',
+        occasion: '',
+      });
+    }
   };
 
   return (
@@ -91,7 +104,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
       <ReservationSelect
         id="time"
         name="time"
-        value={reservationDetails.time} // Ensure the value is set correctly
+        value={reservationDetails.time}
         onChange={handleChange}
         required
       >
