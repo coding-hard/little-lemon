@@ -7,18 +7,25 @@ import {
   ReservationSelect,
 } from './ReservationsForm.styles';
 import { ActionType } from '../../pages/Reservations/Reservations';
-import { submitAPI } from '../../utils/Api';
 
 interface ReservationsFormProps {
   availableTimes: string[];
   dispatch: Dispatch<ActionType>;
   onDateChange: (date: string) => void;
+  submitForm: (formData: {
+    name: string;
+    date: string;
+    time: string;
+    guests: string;
+    occasion: string;
+  }) => void;
 }
 
 const ReservationsForm: React.FC<ReservationsFormProps> = ({
   availableTimes,
   dispatch,
   onDateChange,
+  submitForm,
 }) => {
   const [reservationDetails, setReservationDetails] = useState({
     name: '',
@@ -51,33 +58,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const { date, time } = reservationDetails;
-
-    const formData = {
-      name: reservationDetails.name,
-      date: reservationDetails.date,
-      time: reservationDetails.time,
-      guests: reservationDetails.guests,
-      occasion: reservationDetails.occasion,
-    };
-
-    const success = await submitAPI(formData);
-    const message = success
-      ? 'Your reservation has been made!'
-      : 'Failed to make reservation';
-    alert(message);
-
-    if (success) {
-      dispatch({ type: 'BOOK_TIME', payload: { date, time } });
-      setReservationDetails({
-        name: '',
-        date: reservationDetails.date,
-        time: '',
-        guests: '',
-        occasion: '',
-      });
-    }
+    submitForm(reservationDetails);
   };
 
   return (

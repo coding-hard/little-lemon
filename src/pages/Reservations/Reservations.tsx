@@ -1,8 +1,9 @@
 import React, { useReducer, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ReservationsForm from '../../components/Reservations/ReservationsForm';
 import ReservationsSlot from '../../components/Reservations/ReservationsSlot';
 import { ReservationContainer, ReservationTitle } from './Reservations.styles';
-import { fetchAPI } from '../../utils/Api';
+import { fetchAPI, submitAPI } from '../../utils/Api';
 
 type InitializeTimesType = {
   type: 'INITIALIZE_TIMES';
@@ -78,6 +79,8 @@ const Reservations: React.FC = () => {
     booked: {},
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchInitialTimes = async () => {
       const times = await initializeTimes();
@@ -92,6 +95,21 @@ const Reservations: React.FC = () => {
     dispatch({ type: 'UPDATE_TIMES', payload: { date, times } });
   };
 
+  const submitForm = async (formData: {
+    name: string;
+    date: string;
+    time: string;
+    guests: string;
+    occasion: string;
+  }) => {
+    const success = await submitAPI(formData);
+    if (success) {
+      navigate('/confirmation');
+    } else {
+      alert('Failed to make reservation');
+    }
+  };
+
   console.log('Rendering Reservations with times:', state.times);
 
   return (
@@ -101,6 +119,7 @@ const Reservations: React.FC = () => {
         availableTimes={state.times}
         dispatch={dispatch}
         onDateChange={handleDateChange}
+        submitForm={submitForm}
       />
       <ReservationsSlot availableTimes={state.times} />
     </ReservationContainer>
