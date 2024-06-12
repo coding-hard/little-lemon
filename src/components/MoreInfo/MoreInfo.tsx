@@ -51,4 +51,4 @@ const MoreInfo: React.FC = () => {
   );
 };
 
-export default MoreInfo;
+export default React.memo(MoreInfo);

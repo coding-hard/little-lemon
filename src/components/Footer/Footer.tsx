@@ -42,14 +42,6 @@ const Footer: React.FC = () => {
               </FooterLink>
             </FooterItem>
             <FooterItem>
-              <FooterLink
-                href="/order-online"
-                aria-label="Navigate to Order Online"
-              >
-                Order Online
-              </FooterLink>
-            </FooterItem>
-            <FooterItem>
               <FooterLink href="/login" aria-label="Navigate to Login">
                 Login
               </FooterLink>
@@ -118,4 +110,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer;
+export default React.memo(Footer);

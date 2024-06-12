@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   SpecialsSection,
@@ -17,18 +17,15 @@ import {
 const Specials: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleOrderDelivery = () => {
+  const handleOrderDelivery = useCallback(() => {
     navigate('/menu', { state: { scrollToOrderOnline: true } });
-  };
+  }, [navigate]);
 
   return (
     <SpecialsSection>
       <SpecialsHeader>
         <SpecialsTitle>Specials</SpecialsTitle>
-        <SpecialsButton
-          onClick={() => (window.location.href = '/menu')}
-          aria-label="View Online Menu"
-        >
+        <SpecialsButton onClick={() => (window.location.href = '/menu')}>
           Online Menu
         </SpecialsButton>
       </SpecialsHeader>
@@ -37,15 +34,12 @@ const Specials: React.FC = () => {
           <SpecialImage src="/icons_assets/greek salad.jpg" alt="Greek Salad" />
           <SpecialTitle>Greek Salad</SpecialTitle>
           <SpecialDescription>
-            The famous Greek salad of crispy lettuce, peppers, olives, and our
-            Chicago-style feta cheese, garnished with crunchy garlic and
+            The famous greek salad of crispy lettuce, peppers, olives and our
+            Chicago style feta cheese, garnished with crunchy garlic and
             rosemary croutons.
           </SpecialDescription>
           <SpecialPrice>$12.99</SpecialPrice>
-          <SpecialOrderButton
-            onClick={handleOrderDelivery}
-            aria-label="Order Greek Salad for delivery"
-          >
+          <SpecialOrderButton onClick={handleOrderDelivery}>
             Order a delivery
           </SpecialOrderButton>
         </SpecialItem>
@@ -57,10 +51,7 @@ const Specials: React.FC = () => {
             garlic and seasoned with salt and olive oil.
           </SpecialDescription>
           <SpecialPrice>$5.99</SpecialPrice>
-          <SpecialOrderButton
-            onClick={handleOrderDelivery}
-            aria-label="Order Bruschetta for delivery"
-          >
+          <SpecialOrderButton onClick={handleOrderDelivery}>
             Order a delivery
           </SpecialOrderButton>
         </SpecialItem>
@@ -71,14 +62,11 @@ const Specials: React.FC = () => {
           />
           <SpecialTitle>Lemon Dessert</SpecialTitle>
           <SpecialDescription>
-            This comes straight from grandma`s recipe book. Every last
+            This comes straight from grandma`s recipe book, every last
             ingredient has been sourced and is as authentic as can be imagined.
           </SpecialDescription>
           <SpecialPrice>$5.00</SpecialPrice>
-          <SpecialOrderButton
-            onClick={handleOrderDelivery}
-            aria-label="Order Lemon Dessert for delivery"
-          >
+          <SpecialOrderButton onClick={handleOrderDelivery}>
             Order a delivery
           </SpecialOrderButton>
         </SpecialItem>
@@ -87,4 +75,4 @@ const Specials: React.FC = () => {
   );
 };
 
-export default Specials;
+export default React.memo(Specials);

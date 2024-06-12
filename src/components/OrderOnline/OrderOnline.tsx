@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   OrderContainer,
   OrderTitle,
@@ -16,30 +16,33 @@ const OrderOnline: React.FC = () => {
     dish: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setOrderDetails({ ...orderDetails, [name]: value });
-  };
+    setOrderDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const mockPostRequest = new Promise((resolve) => {
-      setTimeout(() => {
-        console.log('Order Details:', orderDetails);
-        resolve('Order placed successfully!');
-      }, 1000);
-    });
-
-    mockPostRequest.then((message) => {
-      alert(message);
-      setOrderDetails({
-        name: '',
-        address: '',
-        phone: '',
-        dish: '',
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      const mockPostRequest = new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('Order Details:', orderDetails);
+          resolve('Order placed successfully!');
+        }, 1000);
       });
-    });
-  };
+
+      mockPostRequest.then((message) => {
+        alert(message);
+        setOrderDetails({
+          name: '',
+          address: '',
+          phone: '',
+          dish: '',
+        });
+      });
+    },
+    [orderDetails],
+  );
 
   return (
     <OrderContainer>
@@ -53,7 +56,6 @@ const OrderOnline: React.FC = () => {
           value={orderDetails.name}
           onChange={handleChange}
           required
-          aria-required="true"
         />
         <OrderLabel htmlFor="address">Address:</OrderLabel>
         <OrderInput
@@ -63,17 +65,15 @@ const OrderOnline: React.FC = () => {
           value={orderDetails.address}
           onChange={handleChange}
           required
-          aria-required="true"
         />
         <OrderLabel htmlFor="phone">Phone:</OrderLabel>
         <OrderInput
-          type="tel"
+          type="text"
           id="phone"
           name="phone"
           value={orderDetails.phone}
           onChange={handleChange}
           required
-          aria-required="true"
         />
         <OrderLabel htmlFor="dish">Dish:</OrderLabel>
         <OrderInput
@@ -83,7 +83,6 @@ const OrderOnline: React.FC = () => {
           value={orderDetails.dish}
           onChange={handleChange}
           required
-          aria-required="true"
         />
         <OrderButton type="submit">Place Order</OrderButton>
       </OrderForm>
@@ -91,4 +90,4 @@ const OrderOnline: React.FC = () => {
   );
 };
 
-export default OrderOnline;
+export default React.memo(OrderOnline);
