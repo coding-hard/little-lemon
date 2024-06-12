@@ -1,5 +1,10 @@
 import React from 'react';
-import { SlotContainer, SlotList, SlotItem } from './ReservationsSlot.styles';
+import {
+  SlotContainer,
+  SlotList,
+  SlotItem,
+  SlotTitle,
+} from './ReservationsSlot.styles';
 
 interface ReservationsSlotProps {
   availableTimes: string[];
@@ -10,10 +15,12 @@ const ReservationsSlot: React.FC<ReservationsSlotProps> = ({
 }) => {
   return (
     <SlotContainer>
-      <h2>Available Times</h2>
-      <SlotList>
+      <SlotTitle id="available-times-title">Available Times</SlotTitle>
+      <SlotList role="list" aria-labelledby="available-times-title">
         {availableTimes.map((time, index) => (
-          <SlotItem key={index}>{time}</SlotItem>
+          <SlotItem key={index} role="listitem" tabIndex={0}>
+            {time}
+          </SlotItem>
         ))}
       </SlotList>
     </SlotContainer>

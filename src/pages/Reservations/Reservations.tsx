@@ -141,7 +141,7 @@ const Reservations: React.FC = () => {
         payload: { date: formData.date, time: formData.time },
       });
       console.log('Form submitted successfully:', formData);
-      navigate('/confirmation');
+      navigate('/confirmation', { state: { reservationDetails: formData } });
     } else {
       alert('Failed to make reservation');
     }

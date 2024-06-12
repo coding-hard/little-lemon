@@ -25,7 +25,10 @@ const Specials: React.FC = () => {
     <SpecialsSection>
       <SpecialsHeader>
         <SpecialsTitle>Specials</SpecialsTitle>
-        <SpecialsButton onClick={() => (window.location.href = '/menu')}>
+        <SpecialsButton
+          onClick={() => (window.location.href = '/menu')}
+          aria-label="View Online Menu"
+        >
           Online Menu
         </SpecialsButton>
       </SpecialsHeader>
@@ -34,12 +37,15 @@ const Specials: React.FC = () => {
           <SpecialImage src="/icons_assets/greek salad.jpg" alt="Greek Salad" />
           <SpecialTitle>Greek Salad</SpecialTitle>
           <SpecialDescription>
-            The famous greek salad of crispy lettuce, peppers, olives and our
-            Chicago style feta cheese, garnished with crunchy garlic and
+            The famous Greek salad of crispy lettuce, peppers, olives, and our
+            Chicago-style feta cheese, garnished with crunchy garlic and
             rosemary croutons.
           </SpecialDescription>
           <SpecialPrice>$12.99</SpecialPrice>
-          <SpecialOrderButton onClick={handleOrderDelivery}>
+          <SpecialOrderButton
+            onClick={handleOrderDelivery}
+            aria-label="Order Greek Salad for delivery"
+          >
             Order a delivery
           </SpecialOrderButton>
         </SpecialItem>
@@ -51,7 +57,10 @@ const Specials: React.FC = () => {
             garlic and seasoned with salt and olive oil.
           </SpecialDescription>
           <SpecialPrice>$5.99</SpecialPrice>
-          <SpecialOrderButton onClick={handleOrderDelivery}>
+          <SpecialOrderButton
+            onClick={handleOrderDelivery}
+            aria-label="Order Bruschetta for delivery"
+          >
             Order a delivery
           </SpecialOrderButton>
         </SpecialItem>
@@ -62,11 +71,14 @@ const Specials: React.FC = () => {
           />
           <SpecialTitle>Lemon Dessert</SpecialTitle>
           <SpecialDescription>
-            This comes straight from grandma’s recipe book, every last
+            This comes straight from grandma`s recipe book. Every last
             ingredient has been sourced and is as authentic as can be imagined.
           </SpecialDescription>
           <SpecialPrice>$5.00</SpecialPrice>
-          <SpecialOrderButton onClick={handleOrderDelivery}>
+          <SpecialOrderButton
+            onClick={handleOrderDelivery}
+            aria-label="Order Lemon Dessert for delivery"
+          >
             Order a delivery
           </SpecialOrderButton>
         </SpecialItem>

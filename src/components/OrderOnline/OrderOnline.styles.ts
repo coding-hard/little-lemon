@@ -32,7 +32,7 @@ export const OrderForm = styled.form`
 
 export const OrderLabel = styled.label`
   font-size: 1rem;
-  color: #777;
+  color: #555;
   margin-bottom: 0.5rem;
 `;
 
@@ -42,6 +42,12 @@ export const OrderInput = styled.input`
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+
+  &:focus {
+    border-color: #ff6347;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.25);
+  }
 `;
 
 export const OrderButton = styled.button`
@@ -56,5 +62,10 @@ export const OrderButton = styled.button`
 
   &:hover {
     background-color: #ff4500;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.5);
   }
 `;

@@ -42,6 +42,12 @@ export const LoginInput = styled.input`
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+
+  &:focus {
+    border-color: #ff6347;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.25);
+  }
 `;
 
 export const LoginButton = styled.button`
@@ -57,6 +63,11 @@ export const LoginButton = styled.button`
   &:hover {
     background-color: #ff4500;
   }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.5);
+  }
 `;
 
 export const RegisterLink = styled.a`
@@ -66,6 +77,11 @@ export const RegisterLink = styled.a`
   margin-top: 1rem;
 
   &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: none;
     text-decoration: underline;
   }
 `;

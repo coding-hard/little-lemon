@@ -14,16 +14,23 @@ const Hero: React.FC = () => {
     <HeroSection>
       <HeroText>
         <HeroTitle>Little Lemon</HeroTitle>
-        <HeroSubtitle>Chicago</HeroSubtitle>
+        <HeroSubtitle>Chicago 🇺🇸</HeroSubtitle>
         <HeroDescription>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Welcome to Little Lemon, your go-to destination for exquisite
+          Mediterranean cuisine in the heart of Chicago. Experience the vibrant
+          flavors and fresh ingredients that make our dishes unforgettable.
         </HeroDescription>
-        <HeroButton onClick={() => (window.location.href = '/reservations')}>
+        <HeroButton
+          onClick={() => (window.location.href = '/reservations')}
+          aria-label="Reserve a Table"
+        >
           Reserve a Table
         </HeroButton>
       </HeroText>
-      <HeroImage src="/icons_assets/restauranfood.jpg" alt="Delicious food" />
+      <HeroImage
+        src="/icons_assets/restauranfood.jpg"
+        alt="Delicious food at Little Lemon"
+      />
     </HeroSection>
   );
 };

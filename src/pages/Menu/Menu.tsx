@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Specials from '../../components/Specials/Specials';
 import OrderOnline from '../../components/OrderOnline/OrderOnline';
-import { MenuContainer, MenuTitle } from './Menu.styles';
+import { MenuContainer, MenuTitle, OrderSection } from './Menu.styles';
 
 const Menu: React.FC = () => {
   const orderOnlineRef = useRef<HTMLDivElement>(null);
@@ -18,9 +18,9 @@ const Menu: React.FC = () => {
     <MenuContainer>
       <MenuTitle>Our Menu</MenuTitle>
       <Specials />
-      <div ref={orderOnlineRef}>
+      <OrderSection ref={orderOnlineRef}>
         <OrderOnline />
-      </div>
+      </OrderSection>
     </MenuContainer>
   );
 };

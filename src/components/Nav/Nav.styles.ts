@@ -9,7 +9,7 @@ export const NavContainer = styled.nav`
   padding: 1rem 2rem;
 `;
 
-export const HamburgerMenu = styled.div`
+export const HamburgerMenu = styled.button`
   display: none;
   flex-direction: column;
   justify-content: space-around;
@@ -17,11 +17,14 @@ export const HamburgerMenu = styled.div`
   height: 21px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
 
   div {
     width: 100%;
     height: 3px;
-    background-color: #fff; /* White color for good contrast */
+    background-color: #fff;
   }
 
   @media (max-width: 768px) {
@@ -62,7 +65,7 @@ export const NavLink = styled.a`
     transform 0.3s ease;
 
   &:hover {
-    color: #ff6347; /* Tomato color on hover */
+    color: #ff6347;
   }
 
   &[as='button'] {
@@ -78,7 +81,7 @@ export const NavLink = styled.a`
 
     &:hover {
       text-decoration: underline;
-      color: #ff6347; /* Tomato color on hover */
+      color: #ff6347;
     }
   }
 `;
@@ -90,9 +93,9 @@ export const MobileNavList = styled.ul`
   gap: 1rem;
   padding: 1rem;
   margin: 0;
-  background-color: #333; /* Dark background for good contrast */
+  background-color: #333;
   position: absolute;
-  top: 60px; /* Adjust based on header height */
+  top: 60px;
   right: 0;
   left: 0;
   z-index: 10;
@@ -105,7 +108,7 @@ export const MobileNavItem = styled.li`
 `;
 
 export const MobileNavLink = styled.a`
-  color: #fff; /* White text for good contrast */
+  color: #fff;
   text-decoration: none;
   font-size: 1.2rem;
   padding: 0.5rem 1rem;
@@ -116,8 +119,8 @@ export const MobileNavLink = styled.a`
     color 0.3s ease;
 
   &:hover {
-    background-color: #ff6347; /* Tomato color on hover */
-    color: #fff; /* White text on hover */
+    background-color: #ff6347;
+    color: #fff;
   }
 
   &[as='button'] {
@@ -130,8 +133,8 @@ export const MobileNavLink = styled.a`
 
     &:hover {
       text-decoration: underline;
-      background-color: #ff6347; /* Tomato color on hover */
-      color: #fff; /* White text on hover */
+      background-color: #ff6347;
+      color: #fff;
     }
   }
 `;

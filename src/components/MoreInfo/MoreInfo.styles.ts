@@ -32,7 +32,7 @@ export const InfoTitle = styled.h2`
 
 export const InfoParagraph = styled.p`
   font-size: 1rem;
-  color: #777;
+  color: #555;
   margin: 0.5rem 0;
 `;
 

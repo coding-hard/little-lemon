@@ -71,6 +71,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
         value={reservationDetails.name}
         onChange={handleChange}
         required
+        aria-required="true"
       />
       <ReservationLabel htmlFor="date">Date:</ReservationLabel>
       <ReservationInput
@@ -80,6 +81,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
         value={reservationDetails.date}
         onChange={handleDateChange}
         required
+        aria-required="true"
       />
       <ReservationLabel htmlFor="time">Time:</ReservationLabel>
       <ReservationSelect
@@ -88,6 +90,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
         value={reservationDetails.time}
         onChange={handleChange}
         required
+        aria-required="true"
       >
         {availableTimes.map((time, index) => (
           <option key={index} value={time}>
@@ -104,6 +107,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
         onChange={handleChange}
         min={1}
         required
+        aria-required="true"
       />
       <ReservationLabel htmlFor="occasion">Occasion:</ReservationLabel>
       <ReservationInput

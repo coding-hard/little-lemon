@@ -34,6 +34,15 @@ export const SpecialsButton = styled.button`
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:focus {
+    outline: 2px solid #333;
+  }
+
+  &:hover {
+    background-color: #f8ae00;
+  }
 `;
 
 export const SpecialsGrid = styled.div`
@@ -56,7 +65,7 @@ export const SpecialItem = styled.div`
 `;
 
 export const SpecialImage = styled.img`
-  width: auto;
+  width: 100%;
   height: 230px;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -86,4 +95,13 @@ export const SpecialOrderButton = styled.button`
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:focus {
+    outline: 2px solid #333;
+  }
+
+  &:hover {
+    background-color: #ff4500;
+  }
 `;

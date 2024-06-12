@@ -92,6 +92,7 @@ const Login: React.FC = () => {
           onChange={handleChange}
           minLength={3}
           required
+          aria-label="Username"
         />
         <LoginLabel htmlFor="password">Password:</LoginLabel>
         <LoginInput
@@ -102,8 +103,11 @@ const Login: React.FC = () => {
           onChange={handleChange}
           minLength={6}
           required
+          aria-label="Password"
         />
-        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        {passwordError && (
+          <ErrorMessage role="alert">{passwordError}</ErrorMessage>
+        )}
         <LoginButton data-testid="submit-button" type="submit">
           {isRegistering ? 'Register' : 'Login'}
         </LoginButton>
@@ -111,7 +115,11 @@ const Login: React.FC = () => {
       <RegisterLink
         data-testid="toggle-register-link"
         onClick={() => setIsRegistering(!isRegistering)}
+        aria-label={
+          isRegistering ? 'Switch to Login form' : 'Switch to registration form'
+        }
       >
+        <br />
         {isRegistering
           ? 'Already have an account? Login'
           : "Don't have an account? Register"}

@@ -39,7 +39,6 @@ const OrderOnline: React.FC = () => {
         dish: '',
       });
     });
-    // Mock a POST request
   };
 
   return (
@@ -54,6 +53,7 @@ const OrderOnline: React.FC = () => {
           value={orderDetails.name}
           onChange={handleChange}
           required
+          aria-required="true"
         />
         <OrderLabel htmlFor="address">Address:</OrderLabel>
         <OrderInput
@@ -63,15 +63,17 @@ const OrderOnline: React.FC = () => {
           value={orderDetails.address}
           onChange={handleChange}
           required
+          aria-required="true"
         />
         <OrderLabel htmlFor="phone">Phone:</OrderLabel>
         <OrderInput
-          type="text"
+          type="tel"
           id="phone"
           name="phone"
           value={orderDetails.phone}
           onChange={handleChange}
           required
+          aria-required="true"
         />
         <OrderLabel htmlFor="dish">Dish:</OrderLabel>
         <OrderInput
@@ -81,6 +83,7 @@ const OrderOnline: React.FC = () => {
           value={orderDetails.dish}
           onChange={handleChange}
           required
+          aria-required="true"
         />
         <OrderButton type="submit">Place Order</OrderButton>
       </OrderForm>

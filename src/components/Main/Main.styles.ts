@@ -13,8 +13,10 @@ export const MainContainer = styled.main`
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    & > * {
-      grid-template-columns: 1fr;
-    }
+    grid-template-areas:
+      'hero'
+      'specials'
+      'testimonials'
+      'more-info';
   }
 `;

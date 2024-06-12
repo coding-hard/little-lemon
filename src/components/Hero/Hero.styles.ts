@@ -26,18 +26,20 @@ export const HeroText = styled.div`
 `;
 
 export const HeroTitle = styled.h1`
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #333;
+  font-family: 'Georgia', serif;
+  font-weight: bold;
 `;
 
 export const HeroSubtitle = styled.h3`
   font-size: 1.5rem;
-  color: #666;
+  color: #333;
 `;
 
 export const HeroDescription = styled.p`
   font-size: 1rem;
-  color: #777;
+  color: #555;
   margin: 1rem 0;
 `;
 
@@ -49,6 +51,11 @@ export const HeroButton = styled.button`
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ff4500;
+  }
 `;
 
 export const HeroImage = styled.img`

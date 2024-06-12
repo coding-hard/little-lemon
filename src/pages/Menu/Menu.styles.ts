@@ -22,3 +22,11 @@ export const MenuTitle = styled.h2`
     font-size: 2rem;
   }
 `;
+
+export const OrderSection = styled.div`
+  margin-top: 2rem;
+
+  &:focus {
+    outline: 3px solid #333;
+  }
+`;

@@ -47,15 +47,23 @@ export const FooterList = styled.ul`
 
 export const FooterItem = styled.li`
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 `;
 
 export const FooterLink = styled.a`
   color: #fff;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 
   &:hover {
     text-decoration: underline;
   }
+`;
+
+export const FooterIcon = styled.i`
+  margin-right: 0.5rem;
 `;
 
 export const FooterText = styled.p`

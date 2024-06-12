@@ -24,3 +24,34 @@ export const ConfirmMessage = styled.h2`
     font-size: 1.5rem;
   }
 `;
+
+export const ConfirmButton = styled.button`
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+
+  &:hover {
+    background-color: #ff4500;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.5);
+  }
+`;
+
+export const ConfirmDetails = styled.div`
+  text-align: left;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+
+  p {
+    margin: 0.5rem 0;
+  }
+`;

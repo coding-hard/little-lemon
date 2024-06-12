@@ -16,23 +16,25 @@ export const TestimonialsTitle = styled.h2`
   text-align: center;
 `;
 
-export const TestimonialsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
 export const TestimonialItem = styled.div`
   background-color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
+  text-align: center;
 `;
 
-export const TestimonialText = styled.p`
+export const TestimonialRating = styled.div`
+  font-size: 1.25rem;
+  color: #ffd700;
+`;
+
+export const TestimonialName = styled.h3`
+  font-size: 1.25rem;
+  color: #333;
+  margin: 0.5rem 0;
+`;
+
+export const TestimonialReview = styled.p`
   font-size: 1rem;
   color: #777;
   margin: 0.5rem 0;
