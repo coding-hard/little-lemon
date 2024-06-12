@@ -104,11 +104,14 @@ const Login: React.FC = () => {
           required
         />
         {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-        <LoginButton type="submit">
+        <LoginButton data-testid="submit-button" type="submit">
           {isRegistering ? 'Register' : 'Login'}
         </LoginButton>
       </LoginForm>
-      <RegisterLink onClick={() => setIsRegistering(!isRegistering)}>
+      <RegisterLink
+        data-testid="toggle-register-link"
+        onClick={() => setIsRegistering(!isRegistering)}
+      >
         {isRegistering
           ? 'Already have an account? Login'
           : "Don't have an account? Register"}

@@ -62,7 +62,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
   };
 
   return (
-    <ReservationForm onSubmit={handleSubmit}>
+    <ReservationForm data-testid="reservation-form" onSubmit={handleSubmit}>
       <ReservationLabel htmlFor="name">Name:</ReservationLabel>
       <ReservationInput
         type="text"
