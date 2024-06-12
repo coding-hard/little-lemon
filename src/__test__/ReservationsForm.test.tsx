@@ -4,6 +4,7 @@ import ReservationsForm from '../components/Reservations/ReservationsForm';
 
 afterEach(() => {
   jest.clearAllMocks();
+  localStorage.clear();
 });
 
 // Unit test
@@ -74,6 +75,52 @@ describe('ReservationsForm Component', () => {
         type: 'BOOK_TIME',
         payload: { date: '2024-06-12', time: '18:00' },
       });
+    });
+  });
+});
+
+describe('Writing to Local Storage', () => {
+  it('should update local storage with booked times', async () => {
+    const mockDispatch = jest.fn();
+    const mockOnDateChange = jest.fn();
+
+    const mockSubmitForm = jest.fn(async (formData) => {
+      const bookedTimes = JSON.parse(
+        localStorage.getItem('bookedTimes') || '{}',
+      );
+      if (!bookedTimes[formData.date]) {
+        bookedTimes[formData.date] = [];
+      }
+      bookedTimes[formData.date].push(formData.time);
+      localStorage.setItem('bookedTimes', JSON.stringify(bookedTimes));
+    });
+
+    jest.spyOn(Storage.prototype, 'setItem');
+
+    render(
+      <ReservationsForm
+        availableTimes={['17:00', '18:00', '19:00']}
+        dispatch={mockDispatch}
+        onDateChange={mockOnDateChange}
+        submitForm={mockSubmitForm}
+      />,
+    );
+
+    userEvent.type(screen.getByLabelText('Name:'), 'Dmytro');
+    userEvent.type(screen.getByLabelText('Date:'), '2024-06-12');
+    userEvent.selectOptions(screen.getByLabelText('Time:'), '18:00');
+    userEvent.type(screen.getByLabelText('Number of Guests:'), '4');
+    userEvent.type(screen.getByLabelText('Occasion:'), 'Birthday');
+
+    userEvent.click(screen.getByText('Make Reservation'));
+
+    await waitFor(() => {
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'bookedTimes',
+        JSON.stringify({
+          '2024-06-12': ['18:00'],
+        }),
+      );
     });
   });
 });

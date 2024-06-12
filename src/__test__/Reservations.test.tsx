@@ -1,17 +1,20 @@
-import { waitFor } from '@testing-library/react';
+import { waitFor, screen, render } from '@testing-library/react';
 import {
   initializeTimes,
   updateTimes,
 } from '../pages/Reservations/Reservations';
 import { ActionType } from '../pages/Reservations/Reservations';
-import * as api from '../utils/Api'; // Import everything from the api module
+import Reservations from '../pages/Reservations/Reservations';
+import * as Api from '../utils/Api';
+import { MemoryRouter } from 'react-router-dom';
+import { AuthProvider } from '../context/AuthContext';
 
 // Unit tests
 
 describe('Reservations Utility Functions', () => {
   beforeEach(() => {
     jest
-      .spyOn(api, 'fetchAPI')
+      .spyOn(Api, 'fetchAPI')
       .mockResolvedValue([
         '17:00',
         '18:00',
@@ -57,7 +60,7 @@ describe('Reservations Utility Functions', () => {
 
   it('updateTimes should return updated state for UPDATE_TIMES action', async () => {
     jest
-      .spyOn(api, 'fetchAPI')
+      .spyOn(Api, 'fetchAPI')
       .mockResolvedValueOnce(['17:00', '19:00', '20:00', '21:00', '22:00']);
 
     const initialState = {
@@ -67,7 +70,7 @@ describe('Reservations Utility Functions', () => {
 
     const action: ActionType = {
       type: 'UPDATE_TIMES',
-      payload: { date: '2024-12-25', times: await api.fetchAPI('2024-12-25') },
+      payload: { date: '2024-12-25', times: await Api.fetchAPI('2024-12-25') },
     };
 
     const expectedState = {
@@ -81,7 +84,7 @@ describe('Reservations Utility Functions', () => {
 
   it('updateTimes should return updated state for BOOK_TIME action', async () => {
     jest
-      .spyOn(api, 'fetchAPI')
+      .spyOn(Api, 'fetchAPI')
       .mockResolvedValueOnce(['17:00', '20:00', '21:00', '22:00']);
 
     const initialState = {
@@ -103,5 +106,30 @@ describe('Reservations Utility Functions', () => {
     const result = updateTimes(initialState, action);
     expect(result.booked).toEqual(expectedBooked);
     expect(result.times).toEqual(expectedTimes);
+  });
+});
+
+// Integration test
+
+describe('Reading from Local Storage', () => {
+  it('should initialize state with booked times from local storage', async () => {
+    const bookedTimes = {
+      '2024-06-12': ['18:00'],
+    };
+    localStorage.setItem('bookedTimes', JSON.stringify(bookedTimes));
+
+    jest.spyOn(Api, 'fetchAPI').mockResolvedValue(['17:00', '18:00', '19:00']);
+
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <Reservations />
+        </AuthProvider>
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText('18:00')).not.toBeInTheDocument();
+    });
   });
 });
