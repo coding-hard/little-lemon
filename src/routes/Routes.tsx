@@ -6,6 +6,7 @@ import Menu from '../pages/Menu/Menu';
 import Reservations from '../pages/Reservations/Reservations';
 import ConfirmedReservation from '../components/Reservations/ConfirmedReservation';
 import Login from '../pages/Login/Login';
+import NotFound from '../components/ErrorHandling/NotFound';
 
 const Routes: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const Routes: React.FC = () => {
       <Route path="/reservations" element={<Reservations />} />
       <Route path="/confirmation" element={<ConfirmedReservation />} />
       <Route path="/login" element={<Login />} />
+      <Route path="*" element={<NotFound />} />
     </RouterRoutes>
   );
 };
