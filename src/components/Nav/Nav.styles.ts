@@ -49,9 +49,14 @@ export const NavItem = styled.li`
 
 export const NavLink = styled.a`
   color: black;
+  background-color: bisque;
+  border: none;
+  cursor: pointer;
   text-decoration: none;
   font-size: 1.25rem;
   font-weight: bold;
+  border: none;
+  cursor: pointer;
   transition:
     color 0.3s ease,
     transform 0.3s ease;
@@ -61,7 +66,7 @@ export const NavLink = styled.a`
   }
 
   &[as='button'] {
-    background: none;
+    background: bisque;
     border: none;
     cursor: pointer;
     font-size: 1rem;

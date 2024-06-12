@@ -102,6 +102,7 @@ const ReservationsForm: React.FC<ReservationsFormProps> = ({
         name="guests"
         value={reservationDetails.guests}
         onChange={handleChange}
+        min={1}
         required
       />
       <ReservationLabel htmlFor="occasion">Occasion:</ReservationLabel>

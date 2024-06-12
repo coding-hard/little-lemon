@@ -9,7 +9,11 @@ import {
   LoginInput,
   LoginButton,
   RegisterLink,
+  ErrorMessage,
 } from './Login.styles';
+
+const strongPasswordRegex =
+  /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
 
 const Login: React.FC = () => {
   const [loginDetails, setLoginDetails] = useState({
@@ -17,16 +21,32 @@ const Login: React.FC = () => {
     password: '',
   });
   const [isRegistering, setIsRegistering] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginDetails({ ...loginDetails, [name]: value });
+
+    if (name === 'password') {
+      if (!strongPasswordRegex.test(value)) {
+        setPasswordError(
+          'Password must be at least 6 characters long and contain at least 1 uppercase letter, 1 number, and 1 special character.',
+        );
+      } else {
+        setPasswordError('');
+      }
+    }
   };
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!strongPasswordRegex.test(loginDetails.password)) {
+      alert('Password does not meet the requirements.');
+      return;
+    }
+
     const users = JSON.parse(localStorage.getItem('users') || '[]');
 
     if (users.find((user: any) => user.username === loginDetails.username)) {
@@ -70,6 +90,7 @@ const Login: React.FC = () => {
           name="username"
           value={loginDetails.username}
           onChange={handleChange}
+          minLength={3}
           required
         />
         <LoginLabel htmlFor="password">Password:</LoginLabel>
@@ -79,8 +100,10 @@ const Login: React.FC = () => {
           name="password"
           value={loginDetails.password}
           onChange={handleChange}
+          minLength={6}
           required
         />
+        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
         <LoginButton type="submit">
           {isRegistering ? 'Register' : 'Login'}
         </LoginButton>

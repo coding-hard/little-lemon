@@ -69,3 +69,10 @@ export const RegisterLink = styled.a`
     text-decoration: underline;
   }
 `;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+`;
