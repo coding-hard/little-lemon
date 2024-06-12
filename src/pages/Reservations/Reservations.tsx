@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import ReservationsForm from '../../components/Reservations/ReservationsForm';
 import ReservationsSlot from '../../components/Reservations/ReservationsSlot';
 import { ReservationContainer, ReservationTitle } from './Reservations.styles';
@@ -29,6 +30,8 @@ type BookTimeType = {
 };
 
 export type ActionType = InitializeTimesType | UpdateTimesType | BookTimeType;
+
+const LOCAL_STORAGE_KEY = 'bookedTimes';
 
 export const initializeTimes = async () => {
   const today = new Date().toISOString().split('T')[0];
@@ -63,6 +66,7 @@ export const updateTimes = (
         ...state.booked,
         [date]: [...(state.booked[date] || []), time],
       };
+
       return {
         ...state,
         booked: updatedBooked,
@@ -76,15 +80,22 @@ export const updateTimes = (
 const Reservations: React.FC = () => {
   const [state, dispatch] = useReducer(updateTimes, {
     times: [],
-    booked: {},
+    booked: JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}'),
   });
 
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchInitialTimes = async () => {
       const times = await initializeTimes();
       dispatch({ type: 'INITIALIZE_TIMES', payload: { times } });
+
+      // Log the initial booked times
+      console.log(
+        'Initial booked times from local storage:',
+        JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}'),
+      );
     };
 
     fetchInitialTimes();
@@ -102,8 +113,34 @@ const Reservations: React.FC = () => {
     guests: string;
     occasion: string;
   }) => {
+    if (!isAuthenticated) {
+      alert('You must be logged in to make a reservation.');
+      navigate('/login');
+      return;
+    }
+
     const success = await submitAPI(formData);
     if (success) {
+      // Save the booked time to local storage directly
+      const bookedTimes = JSON.parse(
+        localStorage.getItem(LOCAL_STORAGE_KEY) || '{}',
+      );
+      if (!bookedTimes[formData.date]) {
+        bookedTimes[formData.date] = [];
+      }
+      bookedTimes[formData.date].push(formData.time);
+
+      // Log the updated booked times
+      console.log('Updating local storage with booked times:', bookedTimes);
+
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookedTimes));
+
+      // Dispatch the action to update the state
+      dispatch({
+        type: 'BOOK_TIME',
+        payload: { date: formData.date, time: formData.time },
+      });
+      console.log('Form submitted successfully:', formData);
       navigate('/confirmation');
     } else {
       alert('Failed to make reservation');

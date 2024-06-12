@@ -2,6 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ReservationsForm from '../components/Reservations/ReservationsForm';
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 // Unit test
 
 describe('Booking Form', () => {
@@ -28,10 +32,15 @@ describe('Booking Form', () => {
 
 describe('ReservationsForm Component', () => {
   it('should update available times and book a reservation', async () => {
-    window.alert = jest.fn();
     const mockDispatch = jest.fn();
     const mockOnDateChange = jest.fn();
-    const mockSubmitForm = jest.fn();
+
+    const mockSubmitForm = jest.fn(async (formData) => {
+      mockDispatch({
+        type: 'BOOK_TIME',
+        payload: { date: formData.date, time: formData.time },
+      });
+    });
 
     render(
       <ReservationsForm
@@ -48,25 +57,23 @@ describe('ReservationsForm Component', () => {
     userEvent.type(screen.getByLabelText('Number of Guests:'), '4');
     userEvent.type(screen.getByLabelText('Occasion:'), 'Birthday');
 
-    jest.useFakeTimers();
-
     userEvent.click(screen.getByText('Make Reservation'));
 
-    jest.runAllTimers();
+    await waitFor(() => {
+      expect(mockSubmitForm).toHaveBeenCalledWith({
+        name: 'Dmytro',
+        date: '2024-06-12',
+        time: '18:00',
+        guests: '4',
+        occasion: 'Birthday',
+      });
+    });
 
-    // await waitFor(() => {
-    //   expect(window.alert).toHaveBeenCalledWith(
-    //     'Your reservation has been made!',
-    //   );
-    // });
-
-    // await waitFor(() => {
-    //   expect(mockDispatch).toHaveBeenCalledWith({
-    //     type: 'BOOK_TIME',
-    //     payload: { date: '2024-06-12', time: '18:00' },
-    //   });
-    // });
-
-    jest.useRealTimers();
+    await waitFor(() => {
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: 'BOOK_TIME',
+        payload: { date: '2024-06-12', time: '18:00' },
+      });
+    });
   });
 });
